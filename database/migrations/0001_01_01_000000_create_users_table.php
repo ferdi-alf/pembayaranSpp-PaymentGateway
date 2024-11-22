@@ -14,11 +14,41 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('nisn');
+            $table->string('nis');
+            $table->integer('id_kelas');
+            $table->text('alamat');
+            $table->string('no_telp');
+         
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+        });
+
+        Schema::create('petugas', function(Blueprint $table) {
+            $table->id();
+            $table->string('username');
+            $table->string('nama_petugas');
+            $table->string('password');
+            $table->enum('role', ['admin', 'petugas'])->default('admin');
+        });
+
+        Schema::create('spp', function(Blueprint $table) {
+            $table->id();
+            $table->integer('nominal');
+        });
+
+        Schema::create('pembayaran', function(Blueprint $table) {
+            $table->id();
+            $table->string('id_siswa');
+            $table->string('id_spp');
+            $table->integer('jumlah_bayar');
+        });
+
+         Schema::create('kelas', function(Blueprint $table) {
+            $table->id();
+            $table->string('nama_kelas');
+            $table->string('jurusan');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

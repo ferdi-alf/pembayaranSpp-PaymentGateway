@@ -27,13 +27,26 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request)
     {
-        $request->authenticate();
+        $request->validate([
+            'nisn' => 'required|numeric',
+            'password' => 'required'
+        ]);
 
-        $request->session()->regenerate();
+        $credentials = $request->only('nisn', 'password');
+       $remember = $request->input('remember', false);
 
-        return redirect()->intended(route('dashboard', absolute: false));
+
+        if (Auth::guard('web')->attempt($credentials, $remember)) {
+        // Jika berhasil login, arahkan ke dashboard siswa
+        return redirect()->route('siswa.dashboard');
+    }
+
+    // Jika gagal login
+    return back()->withErrors([
+        'nisn' => 'nisn atau password salah.',
+    ])->withInput();
     }
 
     /**

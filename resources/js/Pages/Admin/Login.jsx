@@ -6,17 +6,19 @@ import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Login({ status, canResetPassword }) {
+export default function Login(props) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        nisn: "",
+        username: "",
         password: "",
         remember: false,
     });
 
+    console.log("helop", props);
+
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("login"), {
+        post(route("admin.login.store"), {
             onFinish: () => reset("password"),
         });
     };
@@ -25,31 +27,37 @@ export default function Login({ status, canResetPassword }) {
         <GuestLayout>
             <Head title="Log in" />
 
-            {status && (
-                <div className="mb-4 text-sm font-medium text-green-600">
-                    {status}
-                </div>
-            )}
-
             <form onSubmit={submit} class="space-y-6" action="#">
                 <h5 class="text-xl font-medium text-gray-900 dark:text-white">
-                    Login Sistem Pembayaran Spp
+                    Login Admin Sistem Pembayaran Spp
                 </h5>
+                {props.errors.username ? (
+                    <div
+                        class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        role="alert"
+                    >
+                        <span class="font-medium">Danger alert!</span> Username
+                        atau Password Salah!
+                    </div>
+                ) : (
+                    ""
+                )}
+
                 <div>
                     <label
                         for="email"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                        Masukan Nisn
+                        Masukan username
                     </label>
                     <input
                         type="text"
-                        name="nisn"
-                        id="nisn"
-                        value={data.nisn}
-                        onChange={(e) => setData("nisn", e.target.value)}
+                        name="username"
+                        id="username"
+                        value={data.username}
+                        onChange={(e) => setData("username", e.target.value)}
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                        placeholder="NISN"
+                        placeholder="username"
                         required
                     />
                 </div>
@@ -83,7 +91,6 @@ export default function Login({ status, canResetPassword }) {
                                 type="checkbox"
                                 value=""
                                 class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                                required
                             />
                         </div>
                         <label

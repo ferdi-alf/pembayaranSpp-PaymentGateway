@@ -1,7 +1,8 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Head } from "@inertiajs/react";
+import TableSpp from "./Admin/Table/TableSpp";
 
-export default function Dashboard() {
+export default function Dashboard(props) {
     return (
         <AuthenticatedLayout
             header={
@@ -14,9 +15,9 @@ export default function Dashboard() {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div className="overflow-auto bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
-                            You're logged in!
+                            <TableSpp auth="user" dataSpp={props.dataSpp} />
                         </div>
                     </div>
                 </div>
